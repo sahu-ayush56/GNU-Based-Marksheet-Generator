@@ -1,0 +1,98 @@
+    <!DOCTYPE html>
+    <head>
+        <link rel = "stylesheet" href = "{{ url_for('static', filename='css/index.css') }}">
+    </head>
+    <body>
+        <div class = "container">
+        <header>
+        <h1 id = "title">GUI Based Marksheet Generator</h1>
+        </header>
+        <p id = "description">Project 1 CS384</p>
+        <div id = "project-gui">
+            <br><br>
+            <form id = "master-form" action = "/" method = "POST" enctype="multipart/form-data">
+                <input id='master-roll' type='file' name = "csv-file" required hidden/>
+                <button type= "button" class = "upload" id ='button-master'>Browse for master_roll.csv</button>
+                <div class = "span-label">
+                <span id="status-master">{%if val1==1%}master_roll.csv{%else%}{%endif%}</span>
+                </div>
+                <script type="text/javascript">
+                    const FileBtn = document.getElementById("master-roll");
+                    const masterBtn = document.getElementById("button-master");
+                    const txtBtn = document.getElementById("status-master");
+
+                    masterBtn.addEventListener("click", function(){
+                        FileBtn.click();
+                    });
+                    FileBtn.addEventListener("change",function(){
+                        if(FileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1]=="master_roll.csv"){
+                            txtBtn.innerHTML = "master_roll.csv";
+                            document.getElementById("master-form").submit();
+                        } else{
+                            txtBtn.innerHTML = "You must choose master_roll.csv file";
+                        }
+                    });
+                </script>
+            </form>
+            <br><br>
+            <form id = "response-form" action = "/" method = "POST" enctype="multipart/form-data">
+                <input id='response-roll' type='file' name = "csv-file" required hidden/>
+                <button type= "button" class = "upload" id ='button-response'>Browse for responses.csv</button>
+                <div class = "span-label">
+                <span id="status-response">{%if val2==1%}responses.csv{%else%}{%endif%}</span>
+                </div>
+                <script type="text/javascript">
+                    const FileBtn2 = document.getElementById("response-roll");
+                    const responseBtn2 = document.getElementById("button-response");
+                    const txtBtn2 = document.getElementById("status-response");
+
+                    responseBtn2.addEventListener("click", function(){
+                        FileBtn2.click();
+                    });
+                    FileBtn2.addEventListener("change",function(){
+                        if(FileBtn2.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1]=="responses.csv"){
+                            txtBtn2.innerHTML = "responses.csv";
+                            document.getElementById("response-form").submit();
+                        } else{
+                            txtBtn2.innerHTML = "You must choose responses.csv file";
+                        }
+                    });
+                </script>
+            </form>
+            <form id = "marks-form" action = "/" method = "POST">
+                <div class = "marks">
+                    <input id = "positive" type = "number" step = "any" name = "pos" min = "1" placeholder = "Marks for correct ans" class = "form-control" required>
+                    
+                    <input id = "negative" type = "number" step = "any" name = "neg" max = "0" placeholder = "-ve Marks for wrong ans" class = "form-control" required>
+                </div>
+                <br>
+                
+                <div class = "spans">
+                    <span></span>
+                    <br>
+                    <span>{%if val6==0%}No files chosen, yet{%else%}{{val6}} [{{val4}}, {{val5}}]{%endif%}</span>
+                    <br>
+                </div>
+
+                <div class = "spanb">
+                    <span id = "id4">{%if val7==1 and val10 == 1%}Please upload both files{%elif val8==1%}Marksheets Generated !! [{{val4}}, {{val5}}]{%elif val8==-1%}Please upload valid files{%endif%}</span>
+                </div>
+                <button class = "upload" type = "submit" id = "id3" name = "btn" value="btn1">Generate Roll Number wise marksheet</button>
+            <br>
+            <div class = "spanb">
+                <span id = "id4">{%if val7==1 and val11 == 1%}Please upload both files{%elif val9==1%}Concise Marksheet Generated !! [{{val4}}, {{val5}}]{%elif val9==-1%}Please upload valid files{%endif%}</span>
+            </div>
+            
+            <button class = "upload" type = "submit" id = "id5" name = "btn" value="btn2">Generate Concise Marksheet with Roll Num, Obtained Marks, marks after negative</button>
+            </form>
+            <div class = "spanb">
+                <span>{%if val14 == 1%}{%if val13 == 1%}Please generate roll number wise marksheets...{%elif val13 == 0%}Process Complete !! [{{val15}}, {{val16}}]{%elif val13 == -1%}Error while sending emails
+                {%endif%}{%endif%}</span>   
+            </div>
+            <form id = "marks-form" action = "/" method = "POST">
+                <button class = "upload" type = "submit" name = "btn" value = "btn3">Send Email</button>
+            </form>
+        </div>
+    </div>
+    </body>
+    </html>
